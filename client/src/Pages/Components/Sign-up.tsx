@@ -1,7 +1,21 @@
 import {useNavigate} from 'react-router-dom'
+/* import axios from 'axios' */
 
 const SignUp = () => {
 
+   /*  const registerUser = () => {
+        axios({
+            method: 'POST',
+            data: {
+                username: user.username,
+                password: user.password
+            },
+            withCredentials: true,
+            url: "http://localhost:3000/register"
+        }).then(res => console.log(res))
+    }
+    
+ */
     const navigate = useNavigate()
 
   return (

@@ -5,9 +5,10 @@ const passport = require("passport");
 const passportLocal = require("passport-local").Strategy;
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
-const expressSession = require("express-session");
+const session = require("express-session");
 
 const app = express();
+const router = require("./routes/user");
 
 const User = require("./models/User");
 
@@ -25,25 +26,6 @@ app.use(
   })
 );
 
-app.post("/log-in", async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) return res.send(false);
-    res.send(user);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.post("/register", async (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
-
-  await user.save();
-
-  console.log(user);
-});
+app.use("/", router);
 
 app.listen(3000);

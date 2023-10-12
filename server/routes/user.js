@@ -2,18 +2,38 @@ const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
-router.post("/log-in", async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) return res.send({ message: "User not found" });
-    res.send(user);
-  } catch (error) {
-    console.log(error);
-  }
+router.get("/user", (req, res, next) => {
+  res.send(req.user);
+});
+
+router.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+  });
+});
+
+router.post("/log-in", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    if (!user) {
+      return res.send("User doesn't exist");
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+      res.send("Successfully Authenticated");
+    });
+  })(req, res, next);
 });
 
 router.post(
@@ -54,6 +74,7 @@ router.post(
           admin: false,
         });
         await user.save();
+        return res.send({ confirmation: "User Created" });
       } catch (error) {
         console.log(error);
       }

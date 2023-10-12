@@ -20,6 +20,7 @@ const SignUp = () => {
     lastName: "",
   });
 
+  const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -54,16 +55,13 @@ const SignUp = () => {
       setError(true);
       return;
     }
-
     navigate("/");
   };
-
-  const navigate = useNavigate();
 
   return (
     <form
       action="#"
-      className="flex flex-col items-center justify-center h-auto gap-5 mt-10 mb-10 font-roboto"
+      className="grid h-auto gap-5 mt-10 mb-10 place-content-center font-roboto"
       onSubmit={registerUser}
     >
       <div className="text-white ">
@@ -139,7 +137,7 @@ const SignUp = () => {
       {error && <p className="text-red-600">{errorMsg}</p>}
       <button
         type="submit"
-        className="grid items-center px-24 py-3 text-xl text-center text-white border border-white rounded-xl"
+        className="grid items-center px-24 py-3 mt-5 text-xl text-center text-white border border-white rounded-xl"
       >
         Register
       </button>

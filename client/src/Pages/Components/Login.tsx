@@ -1,5 +1,5 @@
-import { useState, ChangeEvent } from "react";
-/* import { useNavigate } from "react-router-dom"; */
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const Login = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
-  /*   const navigate = useNavigate(); */
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({
@@ -26,7 +26,8 @@ const Login = () => {
     }));
   };
 
-  const login = async () => {
+  const login = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const logInfo = await axios({
       method: "POST",
       data: {
@@ -41,7 +42,7 @@ const Login = () => {
       setError(true);
       return;
     }
-    console.log(logInfo);
+    navigate("/");
   };
 
   return (

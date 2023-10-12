@@ -1,19 +1,35 @@
-import {DateTime} from "ts-luxon";
+import Message from "./Components/Message";
+import NewMessage from "./Components/NewMessage";
+import { useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Home = () => {
-
-  const date = DateTime.local().toISODate()
-  
-
+  const [option, setOption] = useState<string>("message");
+  const [parent] = useAutoAnimate();
   return (
-    <div className="mt-10 font-roboto">
-      <div id="card" className="text-white w-[90vw] lg:w-[50vw] rounded-xl  m-auto bg-zinc-900 grid grid-cols-4 p-4 h-auto">
-      <h1 className="col-span-2 text-2xl">Title</h1>
-      <p className="col-span-2">Author</p>
-      <p className="col-span-4 my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, laborum. Pariatur commodi labore distinctio, nemo at nisi facere libero totam! Quia laudantium rerum necessitatibus quod earum totam distinctio eius vero?</p>
-      <p className="col-span-2">{date}</p>
+    <>
+      <div className="flex items-center justify-center m-auto mt-3 text-xl text-white">
+        <p
+          className={`mr-6 cursor-pointer ${
+            option === "message" && "border-b border-white"
+          }`}
+          onClick={() => setOption("message")}
+        >
+          Messages
+        </p>
+        <p
+          className={`mr-6 cursor-pointer ${
+            option === "newMessage" && "border-b border-white"
+          }`}
+          onClick={() => setOption("newMessage")}
+        >
+          New Message
+        </p>
       </div>
-    </div>
-  )
-}
-export default Home
+      <div ref={parent} className="mt-10">
+        {option === "message" ? <Message /> : <NewMessage />}
+      </div>
+    </>
+  );
+};
+export default Home;

@@ -9,6 +9,7 @@ const session = require("express-session");
 
 const app = express();
 const router = require("./routes/user");
+const message = require("./routes/message");
 
 const User = require("./models/User");
 
@@ -40,5 +41,6 @@ app.use(passport.session());
 //--------------------------End of middleware --------------------------------//
 
 app.use("/", router);
+app.use("/message/", message);
 
 app.listen(3000);

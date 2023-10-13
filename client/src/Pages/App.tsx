@@ -35,7 +35,7 @@ function App() {
         </Link>
         <Link to={user === "" ? "/log-in" : "#"}>
           {user === "" ? (
-            "Login|Sign-up"
+            "Login | Sign-up"
           ) : (
             <button onClick={logout}>{user}</button>
           )}

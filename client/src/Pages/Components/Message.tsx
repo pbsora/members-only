@@ -1,23 +1,35 @@
-import { DateTime } from "ts-luxon";
+import { useEffect, useState } from "react";
+import MessageItem from "./MessageItem";
+/*  import axios  { AxiosResponse }  from "axios";  */
+/* import MessageItem from "./MessageItem"; */
+
+interface Response {}
 const Message = () => {
-  const date = DateTime.local().toISODate();
+  const [messages, setMessages] = useState<any[]>();
+
+  useEffect(() => {
+    const getMessages = async () => {
+      /*  const { data } = await axios({
+        method: "get",
+        withCredentials: true,
+        url: "http://localhost:3000/message/messages",
+      }); */
+      /* const response = await axios.get<{data: Response[]}>("http://localhost:3000/message/messages") */
+
+      const messages = await fetch("http://localhost:3000/message/messages");
+      const data = await messages.json();
+      const newData = Array.from(data);
+      console.log(newData[0].author);
+
+      setMessages(data);
+    };
+    getMessages();
+  }, []);
+
   return (
-    <div className="font-roboto">
-      <div
-        id="card"
-        className="text-white w-[90vw] lg:w-[50vw] rounded-xl  m-auto bg-zinc-900 grid grid-cols-4 p-4 h-auto"
-      >
-        <h1 className="col-span-2 text-2xl">Title</h1>
-        <p className="col-span-2">Author</p>
-        <p className="col-span-4 my-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi,
-          laborum. Pariatur commodi labore distinctio, nemo at nisi facere
-          libero totam! Quia laudantium rerum necessitatibus quod earum totam
-          distinctio eius vero?
-        </p>
-        <p className="col-span-2">{date}</p>
-      </div>
-    </div>
+    <>
+      <MessageItem />
+    </>
   );
 };
 export default Message;

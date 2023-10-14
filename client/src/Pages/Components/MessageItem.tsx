@@ -1,29 +1,35 @@
-import { DateTime } from "ts-luxon";
-import { AxiosResponse } from "axios";
+import { DateTime, fromIso } from "ts-luxon";
 
-interface IMyProps {
-  message: AxiosResponse | null | undefined;
+export interface Mensagem {
+  _id: string;
+  title: string;
+  message: string;
+  author: Author;
+  date: Date;
+  __v: number;
 }
 
-const MessageItem: React.FC<IMyProps> = (props: IMyProps) => {
-  const date = DateTime.local().toISODate();
+export interface Author {
+  _id: string;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  admin: boolean;
+  __v: number;
+}
 
-  console.log(props.message);
+const MessageItem = ({ mensagem }: Mensagem) => {
   return (
     <div className="font-roboto">
       <div
         id="card"
         className="text-white w-[90vw] lg:w-[50vw] rounded-xl  m-auto bg-zinc-900 grid grid-cols-4 p-4 h-auto"
       >
-        <h1 className="col-span-2 text-2xl">Title</h1>
-        <p className="col-span-2">Author</p>
-        <p className="col-span-4 my-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi,
-          laborum. Pariatur commodi labore distinctio, nemo at nisi facere
-          libero totam! Quia laudantium rerum necessitatibus quod earum totam
-          distinctio eius vero?
-        </p>
-        <p className="col-span-2">{date}</p>
+        <h1 className="col-span-2 text-2xl">{mensagem.title}</h1>
+        <p className="col-span-2">{mensagem.author.username}</p>
+        <p className="col-span-4 my-3">{mensagem.message}</p>
+        <p className="col-span-2">{mensagem.date}</p>
       </div>
     </div>
   );

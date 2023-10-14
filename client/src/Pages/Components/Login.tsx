@@ -1,5 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { UserContext, ILogged } from "../../Context/UserContext";
 
 import axios from "axios";
 
@@ -13,6 +15,8 @@ const Login = () => {
     username: "",
     password: "",
   });
+
+  const { setLogged } = useContext(UserContext) as ILogged;
 
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -38,10 +42,11 @@ const Login = () => {
       url: "http://localhost:3000/log-in",
     });
     if (logInfo.data.message) {
-      setErrorMsg(logInfo.data.message);
       setError(true);
+      setErrorMsg(logInfo.data.message);
       return;
     }
+    setLogged(user.username[0].toUpperCase() + user.username.slice(1));
     navigate("/");
   };
 

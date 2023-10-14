@@ -8,7 +8,12 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 
 router.get("/user", (req, res, next) => {
-  res.send(req.user);
+  const user = {
+    id: req.user.id,
+    username: req.user.username,
+    admin: req.user.admin,
+  };
+  res.send(user);
 });
 
 router.get("/log-out", (req, res, next) => {

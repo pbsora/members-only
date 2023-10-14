@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
+
+import { UserContext } from "../Context/UserContext";
+
 function App() {
-  const [user, setUser] = useState<string>("");
+  const [logged, setLogged] = useState("");
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -12,12 +16,16 @@ function App() {
         url: "http://localhost:3000/user",
       });
 
-      const username = logInfo.data.username;
-      setUser(username[0].toUpperCase() + username.slice(1));
-      console.log(logInfo);
+      if (logInfo.data !== "") {
+        const username =
+          logInfo.data.username[0].toUpperCase() +
+          logInfo.data.username.slice(1);
+        setLogged(username);
+        setAdmin(logInfo.data.admin);
+      }
     };
     getUser();
-  }, []);
+  }, [logged]);
 
   const logout = async () => {
     await axios({
@@ -25,23 +33,27 @@ function App() {
       withCredentials: true,
       url: "http://localhost:3000/log-out",
     });
+    setLogged("");
+    setAdmin(false);
   };
 
   return (
     <>
-      <nav className="flex justify-around w-full p-6 text-white border-b border-white bg-zinc-900 font-roboto">
-        <Link to={"/"} className="text-xl">
-          Midnight Club
-        </Link>
-        <Link to={user === "" ? "/log-in" : "#"}>
-          {user === "" ? (
-            "Login | Sign-up"
-          ) : (
-            <button onClick={logout}>{user}</button>
-          )}
-        </Link>
-      </nav>
-      <Outlet />
+      <UserContext.Provider value={{ logged, setLogged, admin, setAdmin }}>
+        <nav className="flex justify-around w-full p-6 text-white border-b border-white bg-zinc-900 font-roboto">
+          <Link to={"/"} className="text-xl">
+            Midnight Club
+          </Link>
+          <Link to={logged === "" ? "/log-in" : "#"}>
+            {logged === "" ? (
+              "Login | Sign-up"
+            ) : (
+              <button onClick={logout}>{logged}</button>
+            )}
+          </Link>
+        </nav>
+        <Outlet />
+      </UserContext.Provider>
     </>
   );
 }

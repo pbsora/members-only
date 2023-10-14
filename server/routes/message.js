@@ -7,7 +7,7 @@ const Message = require("../models/Message");
 router.get("/messages", async (req, res) => {
   try {
     const messages = await Message.find()
-      .sort({ date: 1 })
+      .sort({ date: -1 })
       .populate("author")
       .exec();
     res.send(messages);
@@ -25,6 +25,15 @@ router.post("/new-message", async (req, res) => {
     });
     await message.save();
     res.send({ message: "Message created sucessfully" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/delete-message", async (req, res) => {
+  try {
+    await Message.findByIdAndDelete(req.params.id);
+    res.status(200);
   } catch (error) {
     console.log(error);
   }

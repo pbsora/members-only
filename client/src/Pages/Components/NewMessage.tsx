@@ -11,7 +11,7 @@ const NewMessage = ({ setOption }: Props) => {
 
   const newMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const logInfo = await axios({
+    await axios({
       method: "POST",
       data: {
         title,
@@ -20,7 +20,7 @@ const NewMessage = ({ setOption }: Props) => {
       withCredentials: true,
       url: "http://localhost:3000/message/new-message",
     });
-    console.log(logInfo);
+
     setOption("message");
   };
 

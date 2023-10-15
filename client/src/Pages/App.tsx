@@ -13,7 +13,7 @@ function App() {
       const logInfo = await axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/user",
+        url: "user",
       });
 
       if (logInfo.data !== "") {
@@ -31,7 +31,7 @@ function App() {
     const logout = await axios({
       method: "get",
       withCredentials: true,
-      url: "http://localhost:3000/log-out",
+      url: "log-out",
     });
 
     if (logout.data.message) {

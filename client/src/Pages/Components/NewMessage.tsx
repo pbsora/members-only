@@ -28,7 +28,7 @@ const NewMessage = ({ setOption }: Props) => {
         author: logged,
       },
       withCredentials: true,
-      url: "http://localhost:3000/message/new-message",
+      url: "message/new-message",
     });
 
     setOption("message");

@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, Dispatch } from "react";
 
 import axios from "axios";
 
@@ -11,7 +10,11 @@ interface User {
   lastName: string;
 }
 
-const SignUp = () => {
+interface Props {
+  setOption: Dispatch<React.SetStateAction<string>>;
+}
+
+const SignUp = ({ setOption }: Props) => {
   const [user, setUser] = useState<User>({
     username: "",
     password: "",
@@ -20,7 +23,6 @@ const SignUp = () => {
     lastName: "",
   });
 
-  const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -43,7 +45,7 @@ const SignUp = () => {
         lastName: user.lastName,
       },
       withCredentials: true,
-      url: "http://localhost:3000/register",
+      url: "register",
     });
 
     if (regInfo.data.errors && regInfo.data.errors.length !== 0) {
@@ -54,8 +56,9 @@ const SignUp = () => {
       setErrorMsg(regInfo.data.message);
       setError(true);
       return;
+    } else {
+      setOption("log-in");
     }
-    navigate("/");
   };
 
   return (

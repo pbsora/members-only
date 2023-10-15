@@ -34,7 +34,7 @@ const User_Login = () => {
           </p>
         </div>
 
-        {option === "log-in" ? <Login /> : <SignUp />}
+        {option === "log-in" ? <Login /> : <SignUp setOption={setOption} />}
       </div>
     </>
   );

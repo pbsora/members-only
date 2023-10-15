@@ -13,7 +13,7 @@ const Home = () => {
 
   const getAdmin = async () => {
     const admin = await axios({
-      url: "http://localhost:3000/get-admin",
+      url: "get-admin",
       method: "post",
       withCredentials: true,
       data: { user: logged },

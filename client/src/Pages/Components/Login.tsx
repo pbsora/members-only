@@ -39,7 +39,7 @@ const Login = () => {
         password: user.password,
       },
       withCredentials: true,
-      url: "http://localhost:3000/log-in",
+      url: "log-in",
     });
     if (logInfo.data.message) {
       setError(true);

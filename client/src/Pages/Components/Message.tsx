@@ -35,7 +35,7 @@ const Message = () => {
       const { data } = await axios({
         method: "get",
         withCredentials: true,
-        url: "http://localhost:3000/message/messages",
+        url: "message/messages",
       });
 
       setMessages(data);
@@ -50,7 +50,7 @@ const Message = () => {
         id,
       },
       withCredentials: true,
-      url: "http://localhost:3000/message/delete-message",
+      url: "message/delete-message",
     });
 
     if (delMessage.data.message) {

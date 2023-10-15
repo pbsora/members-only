@@ -20,6 +20,19 @@ router.get("/log-out", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
   });
+  res.send({ message: "Logged-out sucessfully" });
+});
+
+router.post("/get-admin", async (req, res) => {
+  try {
+    await User.updateOne(
+      { username: req.body.user.toLowerCase() },
+      { $set: { admin: true } }
+    );
+    res.send({ message: "You are now an admin" });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post("/log-in", (req, res, next) => {
@@ -28,8 +41,9 @@ router.post("/log-in", (req, res, next) => {
       console.log(err);
       return next(err);
     }
+
     if (!user) {
-      return res.send("User doesn't exist");
+      return res.send({ message: "User doesn't exist or password incorrect" });
     }
     req.logIn(user, (err) => {
       if (err) {

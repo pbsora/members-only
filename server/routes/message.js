@@ -3,6 +3,7 @@ const router = express.Router();
 
 const mongoose = require("mongoose");
 const Message = require("../models/Message");
+const User = require("../models/User");
 
 router.get("/messages", async (req, res) => {
   try {
@@ -18,10 +19,13 @@ router.get("/messages", async (req, res) => {
 
 router.post("/new-message", async (req, res) => {
   try {
+    const user = await User.findOne({
+      username: req.body.author.toLowerCase(),
+    });
     const message = new Message({
       title: req.body.title,
       message: req.body.message,
-      author: "6527f54dc21ea7a8231d643a",
+      author: user.id,
     });
     await message.save();
     res.send({ message: "Message created sucessfully" });
@@ -32,8 +36,8 @@ router.post("/new-message", async (req, res) => {
 
 router.post("/delete-message", async (req, res) => {
   try {
-    await Message.findByIdAndDelete(req.params.id);
-    res.status(200);
+    await Message.findByIdAndDelete(req.body.id).exec();
+    res.send({ message: "Deleted sucessfully" });
   } catch (error) {
     console.log(error);
   }

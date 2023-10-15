@@ -1,4 +1,12 @@
-import { useState, FormEvent, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  FormEvent,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
+import { ILogged, UserContext } from "../../Context/UserContext";
+
 import axios from "axios";
 
 type Props = {
@@ -8,6 +16,7 @@ type Props = {
 const NewMessage = ({ setOption }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const { logged } = useContext(UserContext) as ILogged;
 
   const newMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,6 +25,7 @@ const NewMessage = ({ setOption }: Props) => {
       data: {
         title,
         message,
+        author: logged,
       },
       withCredentials: true,
       url: "http://localhost:3000/message/new-message",
@@ -56,6 +66,7 @@ const NewMessage = ({ setOption }: Props) => {
             className="w-full px-3 py-3 text-2xl border border-white rounded-lg outline-none bg-zinc-700 focus:border-blue-500"
           ></textarea>
         </div>
+
         <button
           type="submit"
           className="grid items-center px-24 py-3 text-xl text-center text-white border border-white rounded-xl"

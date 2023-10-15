@@ -28,13 +28,16 @@ function App() {
   }, [logged]);
 
   const logout = async () => {
-    await axios({
+    const logout = await axios({
       method: "get",
       withCredentials: true,
       url: "http://localhost:3000/log-out",
     });
-    setLogged("");
-    setAdmin(false);
+
+    if (logout.data.message) {
+      setLogged("");
+      setAdmin(false);
+    }
   };
 
   return (

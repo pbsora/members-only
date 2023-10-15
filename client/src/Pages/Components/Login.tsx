@@ -45,9 +45,11 @@ const Login = () => {
       setError(true);
       setErrorMsg(logInfo.data.message);
       return;
+    } else {
+      setLogged(user.username[0].toUpperCase() + user.username.slice(1));
+      navigate("/");
     }
-    setLogged(user.username[0].toUpperCase() + user.username.slice(1));
-    navigate("/");
+    console.log(logInfo);
   };
 
   return (
